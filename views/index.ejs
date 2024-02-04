@@ -1,0 +1,262 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML Meta Tags -->
+    <title>Penny ~ Write Letters | Share Letters</title>
+    <meta name="description" content="Penny ~ A fun interactive platform to write and share letters with people you care about!">
+      <meta name="keywords" content="Penny, letters, write letters, share letters, letter, pen, book, a bird for education, knowledge">
+    <meta name="author" content="Jatin">
+    <meta name="theme-color" content="#00000">
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="Penny ~ Write Letters | Share Letters">
+    <meta itemprop="description" content="Penny ~ A fun interactive platform to write and share letters with people you care about!">
+    <meta itemprop="image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189797444830105621/Picsart_23-12-28_10-39-44-623.png">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Penny ~ Write Letters | Share Letters">
+    <meta property="og:description" content="Penny ~ A fun interactive platform to write and share letters with people you care about!">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189797444830105621/Picsart_23-12-28_10-39-44-623.png">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Penny ~ Write Letters | Share Letters">
+    <meta name="twitter:description" content="Penny ~ A fun interactive platform to write and share letters with people you care about!">
+    <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189797444830105621/Picsart_23-12-28_10-39-44-623.png">
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/934872748730241094/1189797444830105621/Picsart_23-12-28_10-39-44-623.png">
+    <link rel="stylesheet" href="/styles/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script> 
+    const isFirstTimeUser = !document.cookie.includes('hasVisited');
+    if (isFirstTimeUser) {
+      window.location.href = '/wtf';
+    }
+  </script>
+  
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .hero-banner {
+            background-color: #f3f4f6;
+            color: #000000;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+        }
+
+        .card {
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .card textarea {
+            width: 100%;
+            height: 120px;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .bg-picker {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .bg-picker label {
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .bg-picker input {
+            width: 100%;
+        }
+
+        .publish-btn {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 1rem;
+            color: #6b7280;
+        }
+
+        .note a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            background-color: #e5e7eb;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: auto;
+        }
+
+        /* Header Styling */
+      .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem;
+      }
+
+      .hero-banner {
+          background-color: #f3f4f6;
+          color: #000000;
+          padding: 1rem;
+          text-align: center;
+          flex-grow: 1; /* Take remaining space */
+      }
+
+      .hero-banner h1 {
+          font-size: 2.5rem;
+      }
+
+      .dropdown-btn {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          font-size: 1.5rem;
+          margin-left: 10px; /* Adjust margin */
+      }
+
+      .dropdown-btn.open {
+          transform: rotate(45deg);
+      }
+
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: transparent;
+          border-radius: 4px;
+          margin-left: 10px;
+          padding: 0.2rem;
+          right: 0;
+          top: 6rem; /* Adjust space from the top */
+          z-index: 1;
+      }
+
+      .dropdown-content button {
+          display: block;
+          width: 40px; /* Increase button size */
+          height: 40px; /* Increase button size */
+          margin: 0.5rem 0; /* Adjust margin */
+          background-color: #000;
+          color: #fff;
+          text-align: center;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+      }
+    </style>
+</head>
+<body class="h-screen w-screen bg-blue-50">
+
+  <!-- Header -->
+  <div class="header">
+      <div class="hero-banner">
+          <h1 class="text-4xl font-bold">Penny</h1>
+      </div>
+      <button class="dropdown-btn" onclick="toggleDropdown()">
+          <i class="fas fa-plus"></i>
+      </button>
+      <div class="dropdown-content" id="dropdown-content">
+          <button onclick="redirectToGithub()"><i class="fab fa-github"></i></button>
+          <button onclick="redirectToPatreon()"><i class="fab fa-patreon"></i></button>
+          <button onclick="redirectToWTF()"><i class="fas fa-question"></i></button>
+      </div>
+  </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto my-8">
+
+        <!-- Card -->
+        <div class="card">
+
+            <form action="/create" method="post" class="mt-8">
+                <!-- Text Area -->
+                <textarea name="letter" placeholder="Write your letter here..."></textarea>
+
+                <!-- Background Picker -->
+                <div class="bg-picker">
+                    <label for="bg-color">Enter the author name:</label>
+                    <input type="text" id="author" name="author" placeholder="Jatin">
+                </div>
+
+                <!-- Publish Button -->
+                <button type="submit" class="publish-btn">Publish Letter</button>
+            </form>
+        </div>
+
+        <!-- Note -->
+        <div class="note">
+            <p>We support Markdown. Learn how it works <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">here</a>.</p>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&copy; Penny. All rights reserved.</p>
+    </div>
+
+    <!-- JavaScript for Dropdown Functionality -->
+    <script>
+      function toggleDropdown() {
+          const dropdownContent = document.getElementById("dropdown-content");
+          const dropdownBtn = document.querySelector(".dropdown-btn");
+          if (dropdownContent.style.display === "block") {
+              dropdownContent.style.display = "none";
+              dropdownBtn.classList.remove("open");
+          } else {
+              dropdownContent.style.display = "block";
+              dropdownBtn.classList.add("open");
+          }
+      }
+
+      function redirectToGithub() {
+        window.open("https://github.com/oyejateen", "_blank");
+      }
+
+      function redirectToPatreon() {
+        window.open("https://www.patreon.com/oyejateen", "_blank");
+      }
+
+
+        function redirectToWTF() {
+            window.location.href = "/wtf";
+        }
+    </script>
+</body>
+</html>
