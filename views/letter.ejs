@@ -1,0 +1,116 @@
+<!-- views/letter.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML Meta Tags -->
+    <title>Penny ~ Write Letters | Share Letters</title>
+    <meta name="description" content="Penny ~ A fun interactive platform to write and share letters with people you care about!">
+      <meta name="keywords" content="Penny, letters, write letters, share letters, letter, pen, book, a bird for education, knowledge">
+    <meta name="author" content="Jatin">
+    <meta name="theme-color" content="#00000">
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="KNOCK KNOCK!!!">
+    <meta itemprop="description" content="Someone has sent a letter for you!!!">
+    <meta itemprop="image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189811696135569438/pngtree_vector_image.jpg">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="KNOCK KNOCK!!!">
+    <meta property="og:description" content="Someone has sent a letter for you!!!">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189811696135569438/pngtree_vector_image.jpg">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KNOCK KNOCK!!!">
+    <meta name="twitter:description" content="Someone has sent a letter for you!!!">
+    <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/934872748730241094/1189811696135569438/pngtree_vector_image.jpg">
+    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/934872748730241094/1189797444830105621/Picsart_23-12-28_10-39-44-623.png">
+    <link rel="stylesheet" href="/styles/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+          background-image: url('https://images.unsplash.com/photo-1616410731303-6affae095a0a?q=80&w=1301&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          background-size: cover;
+          background-position: center;
+          width: 100%;
+          height: 100vh;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            color: black;
+        }
+
+        .letter-container {
+            
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            margin: 50px 0; /* Adjust margin from top and bottom */
+            overflow-y: auto;
+        }
+
+        .share-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .create-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Letter Content -->
+    <div class="letter-container">
+        <!-- Your letter content goes here -->
+        <!-- Example content: -->
+        <%- htmlLetter %>
+        <!-- End of example content -->
+    </div>
+
+    <!-- Share Button -->
+    <button class="share-btn" onclick="shareLetter()">
+        <i class="fas fa-share"></i>
+    </button>
+
+    <!-- Create Your Own Letter Button -->
+    <button class="create-btn" onclick="redirectToCreateLetter()">
+        Create Your Own Letter
+    </button>
+
+    <!-- JavaScript for Share and Redirect Function -->
+    <script>
+        function shareLetter() {
+            const letterUrl = window.location.href;
+            const shareText = 'Read this letter on Penny!';
+            const shareMessage = `${shareText}\n${letterUrl}`;
+            navigator.share({ title: shareText, text: shareMessage });
+        }
+
+        function redirectToCreateLetter() {
+            window.location.href = "/";
+        }
+    </script>
+
+</body>
+</html>
