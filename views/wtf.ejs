@@ -1,0 +1,163 @@
+<!-- views/wtf.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .hero-banner {
+            background-color: #f3f4f6;
+            color: #000000;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh; /* Adjust the minimum height of the card container */
+            margin-bottom: 2rem; /* Add margin to the bottom */
+        }
+
+        .card {
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: left;
+            overflow-y: auto; /* Add scroll for overflow */
+            max-height: 70vh; /* Set max height for the scroll */
+        }
+
+        .documentation {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 1.5rem;
+        }
+
+        .write-letter-btn {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .copyright {
+            background-color: #e5e7eb;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        /* Header Styling */
+        .hero-banner {
+            background-color: #f3f4f6;
+            color: #000000;
+            padding: 1rem;
+            text-align: center;
+            flex-grow: 1; /* Take remaining space */
+        }
+
+        .hero-banner h1 {
+            font-size: 2.5rem;
+        }
+    </style>
+    <title>Letter App - WTF</title>
+</head>
+
+<body class="h-screen w-screen bg-blue-50">
+
+    <!-- Header -->
+    <div class="hero-banner">
+        <h1 class="text-4xl font-bold">Penny - WTF</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto my-8">
+
+        <!-- Card Container -->
+        <div class="card-container">
+
+            <!-- Card -->
+            <div class="card">
+
+                <!-- Documentation -->
+                <div class="documentation">
+                    <p>Welcome to Penny - WTF (What's This For), your go-to platform for crafting heartfelt letters and sharing them with your loved ones!</p>
+
+                    <h2>Getting Started</h2>
+                    <p>Creating a letter is a breeze with Penny. Follow these simple steps to get started:</p>
+                    <ol>
+                        <li>Click on the "Write a Letter" button below.</li>
+                        <li>Compose your message in the provided text area. Pour your thoughts, emotions, and stories into your letter.</li>
+                        <li>Optionally, add your name to give it a personal touch.</li>
+                        <li>Hit the "Publish Letter" button to share your creation with the world.</li>
+                    </ol>
+
+                    <h2>Express Yourself</h2>
+                    <p>Feel free to express yourself creatively! Use Markdown to format your text, add images, and make your letters visually appealing.</p>
+
+                    <h2>Sharing Your Letters</h2>
+                    <p>Sharing your letters is as simple as creating them:</p>
+                    <ol>
+                        <li>After publishing your letter, you'll receive a unique link.</li>
+                        <li>Share this link with friends, family, or anyone you want to send your letter to.</li>
+                        <li>They can open the link and view your heartfelt message.</li>
+                    </ol>
+
+                    <h2>Privacy and Security</h2>
+                    <p>Your privacy is important to us. All letters are private by default, and only those with the link can view them. We do not share your personal information with third parties.</p>
+
+                    <h2>Need Help?</h2>
+                    <p>If you have any questions or need assistance, feel free to reach out on our <a href="https://github.com/oyejateen/penny" target="_blank">GitHub repository</a>.</p>
+
+                    <p>Thank you for choosing Penny - . Happy writing ;)</p>
+                </div>
+
+                <!-- Write a Letter Button -->
+                <button class="write-letter-btn" onclick="redirectToWriteLetter()">Write a Letter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&copy; Penny. All rights reserved.</p>
+    </div>
+
+    <!-- JavaScript for Redirect Function -->
+    <script>
+        function redirectToWriteLetter() {
+          const expiryDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)); // 30 days from now
+          document.cookie = `hasVisited=true; expires=${expiryDate.toUTCString()}; path=/;`;
+            window.location.href = "/"; // Redirect to the main page for letter writing
+        }
+    </script>
+</body>
+
+</html>
