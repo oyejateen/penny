@@ -79,14 +79,37 @@
     </style>
 </head>
 <body>
+  <div class="letter-container">
+    <div id="letter-content">
+      <% var currentDate = new Date(); %>
+      <% var scheduledDate = new Date(letter.scheduledDate); %>
+      <% var userTimeZone = letter.timezone || 'UTC'; %>
 
-    <!-- Letter Content -->
-    <div class="letter-container">
-        <!-- Your letter content goes here -->
-        <!-- Example content: -->
+      <!-- Convert scheduledDate to the user's time zone (if provided) or UTC -->
+      <% var scheduledDateUserTZ = new Date(scheduledDate.toLocaleString('en-US', { timeZone: userTimeZone })); %>
+
+      <!-- Get current date and time in the same time zone as scheduledDateUserTZ -->
+      <% var currentDateUserTZ = new Date(currentDate.toLocaleString('en-US', { timeZone: userTimeZone })); %>
+
+        <% 
+          // Calculate the difference in minutes between scheduledDate and currentDateUserTZ
+          var timeDifference = (scheduledDate - currentDateUserTZ) / (60 * 1000); // convert milliseconds to minutes
+        %>meDifference); %>
+
+      <% if (!letter.scheduledDate || (timeDifference >= 0 && timeDifference <= 1)) { %>
+        <!-- Show a message when the difference is 1 minute or less -->
+        Thanks for using Penny! Your letter is coming from the clouds. It might take a few sec :>
+      <% } else if (currentDateUserTZ >= scheduledDate) { %>
+        <!-- Show the letter when the current time is equal to or past the scheduled time -->
         <%- htmlLetter %>
-        <!-- End of example content -->
+      <% } else { %> 
+        <!-- Show a message when the scheduled time is in the future -->
+        This letter will be available on <%= scheduledDate.toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: 'numeric', minute: 'numeric' }) %> (GMT +5:30 <%= userTimeZone %>)
+      <% } %>
     </div>
+  </div>
+
+
 
     <!-- Share Button -->
     <button class="share-btn" onclick="shareLetter()">
@@ -99,18 +122,24 @@
     </button>
 
     <!-- JavaScript for Share and Redirect Function -->
-    <script>
-        function shareLetter() {
-            const letterUrl = window.location.href;
-            const shareText = 'Read this letter on Penny!';
-            const shareMessage = `${shareText}\n${letterUrl}`;
-            navigator.share({ title: shareText, text: shareMessage });
-        }
+  <!-- ... (your existing code) ... -->
 
-        function redirectToCreateLetter() {
-            window.location.href = "/";
-        }
-    </script>
+  <script>
+
+      function shareLetter() {
+          const letterUrl = window.location.href;
+          const shareText = 'Read this letter on Penny!';
+          const shareMessage = `${shareText}\n${letterUrl}`;
+          navigator.share({ title: shareText, text: shareMessage });
+      }
+
+      function redirectToCreateLetter() {
+          window.location.href = "/";
+      }
+  </script>
+
+  <!-- ... (your existing code) ... -->
+
 
 </body>
 </html>
