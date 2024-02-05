@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('views'));
 
-mongoose.connect(process.env.mongo, {
+mongoose.connect('mongodb+srv://mithi:mishri@mithi.uxyhrt1.mongodb.net', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -55,7 +55,7 @@ app.get('/preview/:id', async (req, res) => {
     const letter = await getLetterByUniqueId(req.params.id);
 
     if (letter) {
-          res.render('preview.ejs', { htmlLetter: letter.content, shortUrl: letter.shortUrl });
+          res.render('preview.ejs', { htmlLetter: letter.content, Url: `${process.env.url}/letter/${letter.shortUrl}` });
     } else {
         res.status(404).send('Letter not found');
     }
