@@ -101,7 +101,7 @@
     <!-- JavaScript for Share and Redirect Function -->
     <script>
         function shareLetter() {
-            const letterUrl = "https://penny.its.giving/letter/<%= shortUrl %>";
+            const letterUrl = "<%= Url %>";
           console.log(letterUrl);
             const shareText = 'Read this letter on Penny!';
             const shareMessage = `${shareText}\n${letterUrl}`;
