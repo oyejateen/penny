@@ -7,7 +7,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const app = express();
-const port = 0000;
+const port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
