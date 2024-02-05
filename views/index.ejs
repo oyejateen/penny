@@ -35,7 +35,7 @@
       window.location.href = '/wtf';
     }
   </script>
-  
+
     <style>
         body {
             background-color: #f3f4f6;
@@ -84,14 +84,22 @@
         }
 
         .bg-picker label {
-            margin-bottom: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 1rem;
             color: #6b7280;
         }
+      .bg-picker input[type="radio"] {
+          margin-right: 0.5rem;
+      }
 
         .bg-picker input {
             width: 100%;
         }
+      .bg-picker .radio-container {
+          display: flex;
+          align-items: flex-start;
+      }
+
+
 
         .publish-btn {
             width: 100%;
@@ -106,7 +114,6 @@
 
         .note {
             text-align: center;
-            margin-top: 1rem;
             color: #6b7280;
         }
 
@@ -205,24 +212,83 @@
         <!-- Card -->
         <div class="card">
 
-            <form action="/create" method="post" class="mt-8">
-                <!-- Text Area -->
-                <textarea name="letter" placeholder="Write your letter here..."></textarea>
+          <!-- views/index.ejs -->
+          <!-- ... (your existing code) ... -->
 
-                <!-- Background Picker -->
-                <div class="bg-picker">
-                    <label for="bg-color">Enter the author name:</label>
-                    <input type="text" id="author" name="author" placeholder="Jatin">
-                </div>
+          <form action="/create" method="post" class="mt-8">
+              <!-- Text Area -->
+              <textarea name="letter" placeholder="Write your letter here..." required></textarea>
+ 
+              <!-- Background Picker -->
+              <div class="bg-picker">
+                  <label for="author">Enter the author name:</label>
+                  <input type="text" id="author" name="author" placeholder="Jatin">
+              </div>
 
-                <!-- Publish Button -->
-                <button type="submit" class="publish-btn">Publish Letter</button>
-            </form>
+              <!-- Radio button for customizing date and time -->
+            <!-- Radio button for customizing date and time -->
+            
+              <div class="bg-picker" id="datePicker">
+                  <label for="scheduledDate">Select date and time:</label>
+                  <input type="datetime-local" id="scheduledDate" name="scheduledDate">
+              </div>
+            <!-- Timezone Picker -->
+            <div class="bg-picker">
+                <label for="timezone">Select your timezone:</label>
+                <select id="timezone" name="timezone" style="width:100%;">
+                    <option value="Pacific/Midway">(UTC-11:00) Midway Island</option>
+                    <option value="Pacific/Honolulu">(UTC-10:00) Hawaii</option>
+                    <option value="America/Anchorage">(UTC-09:00) Alaska</option>
+                    <option value="America/Los_Angeles">(UTC-08:00) Pacific Time (US & Canada)</option>
+                    <option value="America/Denver">(UTC-07:00) Mountain Time (US & Canada)</option>
+                    <option value="America/Chicago">(UTC-06:00) Central Time (US & Canada)</option>
+                    <option value="America/New_York">(UTC-05:00) Eastern Time (US & Canada)</option>
+                    <option value="America/Argentina/Buenos_Aires">(UTC-03:00) Buenos Aires</option>
+                    <option value="America/Sao_Paulo">(UTC-03:00) Brasilia</option>
+                    <option value="Atlantic/Azores">(UTC-01:00) Azores</option>
+                    <option value="Europe/London">(UTC+00:00) London</option>
+                    <option value="Europe/Paris">(UTC+01:00) Paris</option>
+                    <option value="Europe/Berlin">(UTC+01:00) Berlin</option>
+                    <option value="Europe/Athens">(UTC+02:00) Athens</option>
+                    <option value="Africa/Cairo">(UTC+02:00) Cairo</option>
+                    <option value="Asia/Jerusalem">(UTC+02:00) Jerusalem</option>
+                    <option value="Asia/Dubai">(UTC+04:00) Dubai</option>
+                    <option value="Asia/Kolkata" selected>(UTC+05:30) Mumbai</option>
+                    <option value="Asia/Kathmandu">(UTC+05:45) Kathmandu</option>
+                    <option value="Asia/Almaty">(UTC+06:00) Almaty</option>
+                    <option value="Asia/Bangkok">(UTC+07:00) Bangkok</option>
+                    <option value="Asia/Singapore">(UTC+08:00) Singapore</option>
+                    <option value="Asia/Hong_Kong">(UTC+08:00) Hong Kong</option>
+                    <option value="Asia/Tokyo">(UTC+09:00) Tokyo</option>
+                    <option value="Australia/Sydney">(UTC+10:00) Sydney</option>
+                    <option value="Pacific/Auckland">(UTC+12:00) Auckland</option>
+                </select>
+            </div>
+
+
+
+              <!-- Publish Button -->
+              <button type="submit" class="publish-btn">Publish Letter</button>
+          </form>
+
+          <!-- ... (your existing code) ... -->
+
+          <!-- JavaScript to toggle visibility of date and time input fields -->
+          <script>
+              const customDateRadio = document.getElementById("customDate");
+              const datePicker = document.getElementById("datePicker");
+
+              customDateRadio.addEventListener("change", function() {
+                  datePicker.style.display = this.checked ? "block" : "none";
+              });
+          </script>
+
         </div>
 
         <!-- Note -->
         <div class="note">
             <p>We support Markdown. Learn how it works <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">here</a>.</p>
+          <p>Date and Time indicates the time after which the letter will be availabe to view.</p>
         </div>
     </div>
 
