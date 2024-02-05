@@ -52,6 +52,10 @@
             margin: 50px 0; /* Adjust margin from top and bottom */
             overflow-y: auto;
         }
+        .letter-container img {
+          max-width: 100%; /* Set max width to 100% to ensure it doesn't exceed the screen size */
+          height: auto; /* Maintain aspect ratio */
+        }
 
         .share-btn {
             position: fixed;
@@ -94,7 +98,7 @@
         <% 
           // Calculate the difference in minutes between scheduledDate and currentDateUserTZ
           var timeDifference = (scheduledDate - currentDateUserTZ) / (60 * 1000); // convert milliseconds to minutes
-        %>meDifference); %>
+        %>
 
       <% if (!letter.scheduledDate || (timeDifference >= 0 && timeDifference <= 1)) { %>
         <!-- Show a message when the difference is 1 minute or less -->
