@@ -1,18 +1,34 @@
 const express = require('express');
 const marked = require('marked');
-const { v4: uuidv4 } = require('uuid'); // Import the uuid library
+const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
+const shortid = require('shortid');
 const fs = require('fs').promises;
 const path = require('path');
 
 const app = express();
 const port = 8080;
 
-app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('views'));
 app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-const lettersFilePath = path.join(__dirname, 'letters.json');
+app.use(express.static('views'));
+
+mongoose.connect(process.env.mongo, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+const Letter = mongoose.model('Letter', {
+    id: String,
+    content: String,
+    author: String,
+    publishDate: Date,
+    scheduledDate: Date,
+    shortUrl: String,
+    timezone: String
+});
 
 app.get('/', (req, res) => {
     res.render(path.join('index.ejs'));
@@ -23,66 +39,94 @@ app.get('/wtf', (req, res) => {
 });
 
 app.post('/create', async (req, res) => {
-    const { letter } = req.body;
+    const { letter, author, scheduledDate, timezone } = req.body;
     const htmlLetter = marked.parse(letter);
-
-    // Generate a unique ID using uuid
     const uniqueId = uuidv4();
+    const shortUrl = shortid.generate();
 
-    // Save the HTML letter and its unique ID to a JSON file
-    await saveLetter(uniqueId, htmlLetter);
+    // Save the letter to MongoDB
+    await saveLetterToMongoDB(uniqueId, htmlLetter, author, scheduledDate, shortUrl, timezone);
 
-    // Redirect to the letter page with the unique ID
-    res.redirect(`/letter/${uniqueId}`);
+    // Redirect to the letter page with the short URL
+    res.redirect(`/preview/${uniqueId}`);
 });
 
-app.get('/letter/:id', async (req, res) => {
-    // Fetch the HTML letter from the JSON file using the ID
-    const htmlLetter = await getLetterById(req.params.id);
+app.get('/preview/:id', async (req, res) => {
+    const letter = await getLetterByUniqueId(req.params.id);
 
-    if (htmlLetter) {
-        res.render(path.join('letter.ejs', { htmlLetter }));
+    if (letter) {
+          res.render('preview.ejs', { htmlLetter: letter.content, shortUrl: letter.shortUrl });
     } else {
         res.status(404).send('Letter not found');
     }
+});
+
+app.get('/letter/:id', async (req, res) => {
+    const letter = await getLetterByShortUrl(req.params.id);
+
+  if (letter) {
+      res.render('letter.ejs', { htmlLetter: letter.content, letter });
+  } else {
+      res.status(404).send('Letter not found');
+  }
 });
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
-// Function to save the HTML letter and its unique ID to a JSON file
-async function saveLetter(id, htmlLetter) {
+async function saveLetterToMongoDB(id, htmlLetter, author, scheduledDate, shortUrl, timezone) {
     try {
-        const letters = await readLettersFile();
-        letters[id] = htmlLetter;
-        await fs.writeFile(lettersFilePath, JSON.stringify(letters, null, 2));
+        await Letter.create({
+            id,
+            content: htmlLetter,
+            author,
+            publishDate: new Date(),
+            scheduledDate: scheduledDate ? new Date(scheduledDate) : null,
+            shortUrl,
+            timezone
+        });
     } catch (error) {
-        console.error('Error saving letter:', error);
+        console.error('Error saving letter to MongoDB:', error);
     }
 }
-
-// Function to fetch the HTML letter from the JSON file using the ID
-async function getLetterById(id) {
+async function getLetterByUniqueId(id) {
     try {
-        const letters = await readLettersFile();
-        return letters[id];
+        return await Letter.findOne({ id });
     } catch (error) {
-        console.error('Error fetching letter by ID:', error);
+        console.error('Error fetching letter by short URL:', error);
         return null;
     }
 }
 
-// Function to read the letters JSON file
-async function readLettersFile() {
+async function getLetterByShortUrl(shortUrl) {
     try {
-        const data = await fs.readFile(lettersFilePath, 'utf-8');
-        return JSON.parse(data);
+        return await Letter.findOne({ shortUrl });
     } catch (error) {
-        // If the file doesn't exist, return an empty object
-        if (error.code === 'ENOENT') {
-            return {};
-        }
-        throw error;
+        console.error('Error fetching letter by short URL:', error);
+        return null;
+    }
+}
+// scripts of mass destruction
+ //getAllLetters();
+async function getAllLetters() {
+    try {
+        const letters = await Letter.find();
+        console.log('All Letters:', letters);
+    } catch (error) {
+        console.error('Error getting all letters:', error);
+    } finally {
+        mongoose.connection.close();
+    }
+}
+
+async function deleteAllLetters() {
+    try {
+        await Letter.deleteMany({});
+        console.log('All Letters deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting all letters:', error);
+    } finally {
+        mongoose.connection.close();
     }
 }
